@@ -26,7 +26,13 @@ public class AircraftController {
         return aircraftService.searchAircraft(searchTerm);
     }
     @DeleteMapping("/aircraft/deleteaircraft")
-    public List<Aircraft> delete(@RequestParam String searchTerm) {
-        return aircraftService.searchAircraft(searchTerm);
+    public List<Aircraft> delete(@RequestParam Long id) {
+        return aircraftService.deleteAircraft(id);
     }
+
+    @PostMapping("/aircraft/createAircraft")
+    public void createAircraft(@RequestBody Aircraft aircraft) {
+        aircraftService.createAircraft(aircraft);
+    }
+
 }

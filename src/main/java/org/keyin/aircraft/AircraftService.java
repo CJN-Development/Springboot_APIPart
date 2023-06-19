@@ -42,13 +42,17 @@ public class AircraftService {
         return searchResults;
     }
 
-//    public List<Aircraft> deleteAircraft(String searchTerm) {
-//        List<Aircraft> searchResults = new ArrayList<>();
-//        for (Aircraft aircraft : aircraftList) {
-//            if (aircraft.getBrand().contains(searchTerm) || aircraft.getModel().contains(searchTerm)) {
-//                searchResults.add(aircraft);
-//            }
-//        }
-//        return searchResults;
-//    }
+    public List<Aircraft> deleteAircraft(Long id) {
+
+        for (Aircraft aircraft : aircraftList) {
+            if (aircraft.getId().equals(id)) {
+                aircraftList.remove(aircraft);
+            }
+        }
+        return aircraftList;
+    }
+
+    public void createAircraft(Aircraft aircraft){
+        aircraftList.add(aircraft);
+    }
 }
