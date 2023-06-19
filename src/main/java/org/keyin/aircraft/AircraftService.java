@@ -28,10 +28,14 @@ public class AircraftService {
 
 
 
+//    Get All Aircraft  GET
     public List<Aircraft> getAllAircraft() {
         return aircraftList;
     }
 
+
+
+//    Search Aircraft By Search Term GET
     public List<Aircraft> searchAircraft(String searchTerm) {
         List<Aircraft> searchResults = new ArrayList<>();
         for (Aircraft aircraft : aircraftList) {
@@ -42,6 +46,19 @@ public class AircraftService {
         return searchResults;
     }
 
+//    Search By Id
+    public List<Aircraft> searchById(Long id){
+        List<Aircraft> idSearchResult = new ArrayList<>();
+        for(Aircraft aircraft: aircraftList){
+            if(aircraft.getId().equals(id)){
+                idSearchResult.add(aircraft);
+            }
+
+
+        }
+        return idSearchResult;
+    }
+//    Delete Aircraft  DELETE
     public List<Aircraft> deleteAircraft(Long id) {
 
         for (Aircraft aircraft : aircraftList) {
@@ -52,6 +69,7 @@ public class AircraftService {
         return aircraftList;
     }
 
+//    Create Aircraft POST
     public void createAircraft(Aircraft aircraft){
         aircraftList.add(aircraft);
     }
