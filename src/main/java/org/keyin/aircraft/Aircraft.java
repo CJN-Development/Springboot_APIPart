@@ -1,5 +1,9 @@
 package org.keyin.aircraft;
 
+import org.keyin.city.City;
+
+import java.util.List;
+
 public class Aircraft {
 
     private Long id;
@@ -7,7 +11,6 @@ public class Aircraft {
     private String type;
     private String brand;
     private String model;
-
 
 
     public Long getId() {
