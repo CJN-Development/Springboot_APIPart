@@ -36,9 +36,9 @@ public class City {
         this.population = population;
     }
 
-   public Long getId(){
+    public Long getId(){
         return id;
-   }
+    }
 
 
     public void setId(Long id) {
