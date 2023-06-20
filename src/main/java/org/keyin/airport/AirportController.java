@@ -1,6 +1,8 @@
 package org.keyin.airport;
 
 import org.keyin.aircraft.Aircraft;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,4 +34,21 @@ public class AirportController {
         airportService.createAirport(airport);
     }
 
+    @PutMapping("/airport/updateAirport/{id}")
+    public ResponseEntity<String> updateCity(@PathVariable Long id, @RequestBody Airport updatedAirport) {
+        try {
+            List<Airport> airportList = airportService.getAllAirports();
+            for (Airport airport : airportList) {
+                if (airport.getId().equals(id)) {
+                    airport.setName(updatedAirport.getName());
+                    airport.setCode(updatedAirport.getCode());
+
+                    return new ResponseEntity<>("Airport updated successfully", HttpStatus.OK);
+                }
+            }
+            return new ResponseEntity<>("Airport not found", HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Failed to update Airport", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
