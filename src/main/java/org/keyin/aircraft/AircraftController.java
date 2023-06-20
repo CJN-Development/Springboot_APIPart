@@ -1,14 +1,11 @@
 package org.keyin.aircraft;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.keyin.airport.Airport;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @CrossOrigin
@@ -59,6 +56,35 @@ public class AircraftController {
             return new ResponseEntity<>("Failed to update city", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @PutMapping("/aircraft/addAllowed/{id}")
+    public ResponseEntity<String> createAddAllowedAirport(@PathVariable Long id, @RequestBody Airport airport) {
+        List<Aircraft> optionalAircraft = aircraftService.searchById(id);
+        for(Aircraft aircraft: optionalAircraft)
+            if (aircraft.getId().equals(id)) {
+            aircraft.addAllowedAirport(airport);
+        } else {
+            throw new Error("Aircraft with ID now found");
+        }
+        return new ResponseEntity<>("Airport Added To Allowed List", HttpStatus.OK);
+    }
+
+    @GetMapping("/aircraft/getAllowed/{id}")
+    public List<Airport> getAllowedList(@PathVariable Long id){
+        List<Aircraft> tempAircraft = aircraftService.searchById(id);
+
+        for(Aircraft aircraft: tempAircraft)
+            if(aircraft.getId().equals(id)){
+                return aircraft.getAllowedAirports();
+            }
+
+        throw new RuntimeException("Aircraft not found");
+
+
+    }
+
+
+
 }
 
 

@@ -1,7 +1,9 @@
 package org.keyin.aircraft;
 
+import org.keyin.airport.Airport;
 import org.keyin.city.City;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Aircraft {
@@ -11,6 +13,14 @@ public class Aircraft {
     private String type;
     private String brand;
     private String model;
+
+    private List<Airport> allowedAirports;
+
+    public Aircraft(){
+        allowedAirports = new ArrayList<>();
+    }
+
+
 
 
     public Long getId() {
@@ -51,5 +61,17 @@ public class Aircraft {
 
     public void setModel(String model) {
         this.model = model;
+    }
+
+    public void addAllowedAirport(Airport airport) {
+        allowedAirports.add(airport);
+    }
+
+    public void removeAllowedAirport(Airport airport) {
+        allowedAirports.remove(airport);
+    }
+
+    public List<Airport> getAllowedAirports() {
+        return allowedAirports;
     }
 }
