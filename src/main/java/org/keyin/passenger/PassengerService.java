@@ -1,5 +1,6 @@
 package org.keyin.passenger;
 
+
 import org.keyin.passenger.Passenger;
 
 import java.util.ArrayList;
