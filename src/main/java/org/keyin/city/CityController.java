@@ -1,41 +1,78 @@
 package org.keyin.city;
 
 
+import org.keyin.StackControls.RequestStack;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Stack;
 
 @RestController
 @CrossOrigin
 public class CityController {
     private CityService cityService;
+    private Stack<RequestStack> requestStack; // Stack to store the request history
 
     public CityController() {
         cityService = new CityService();
+        requestStack = new Stack<>();
+    }
+
+    @PostMapping("/cities/undo")
+    public ResponseEntity<String> undoAction() {
+        try {
+            cityService.undoAction();
+            return new ResponseEntity<>("Undo action successful", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Failed to undo action", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/cities/redo")
+    public ResponseEntity<String> redoAction() {
+        try {
+            cityService.redoAction(); // Implement the redoAction() method in the CityService class
+            return new ResponseEntity<>("Redo action successful", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Failed to redo action", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/cities")
     public List<City> getAllCities() {
+        RequestStack request = new RequestStack("GET", "/cities", LocalDateTime.now());
+        requestStack.push(request);
+        System.out.println("Logged request: GET /cities at " + request.getTimestamp());
         return cityService.getCityList();
     }
 
     @GetMapping("/cities/citysearch")
     public List<City> searchCities(@RequestParam String searchInput) {
+        RequestStack request = new RequestStack("GET", "/cities/citysearch", LocalDateTime.now());
+        requestStack.push(request);
+        System.out.println("Logged request: GET /cities/citysearch at " + request.getTimestamp());
         return cityService.searchCities(searchInput);
     }
 
     @DeleteMapping("/cities/deletecity")
     public List<City> deleteCity(@RequestParam Long id) {
+        RequestStack request = new RequestStack("DELETE", "/cities/deletecity", LocalDateTime.now());
+        requestStack.push(request);
+        System.out.println("Logged request: DELETE /cities/deletecity at " + request.getTimestamp());
         cityService.deleteCity(id);
         return cityService.getCityList();
     }
 
     @PostMapping("/cities/createCity")
     public ResponseEntity<String> createCity(@RequestBody City city) {
+        RequestStack request = new RequestStack("POST", "/cities/createCity", LocalDateTime.now());
+        requestStack.push(request);
+        System.out.println("Logged request: POST /cities/createCity at " + request.getTimestamp());
         try {
-            cityService.getCityList().add(city);
+            cityService.createCity(city);
             return new ResponseEntity<>("City created successfully", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Failed to create city", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -44,19 +81,16 @@ public class CityController {
 
     @PutMapping("/cities/updateCity/{id}")
     public ResponseEntity<String> updateCity(@PathVariable Long id, @RequestBody City updatedCity) {
+        RequestStack request = new RequestStack("PUT", "/cities/updateCity/" + id, LocalDateTime.now());
+        requestStack.push(request);
+        System.out.println("Logged request: PUT /cities/updateCity/" + id + " at " + request.getTimestamp());
         try {
-            List<City> cityList = cityService.getCityList();
-            for (City city : cityList) {
-                if (city.getId().equals(id)) {
-                    city.setName(updatedCity.getName());
-                    city.setState(updatedCity.getState());
-                    city.setPopulation(updatedCity.getPopulation());
-                    return new ResponseEntity<>("City updated successfully", HttpStatus.OK);
-                }
-            }
-            return new ResponseEntity<>("City not found", HttpStatus.NOT_FOUND);
+            cityService.updateCity(updatedCity);
+            return new ResponseEntity<>("City updated successfully", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Failed to update city", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
 }
