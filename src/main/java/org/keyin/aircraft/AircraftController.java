@@ -1,6 +1,7 @@
 package org.keyin.aircraft;
 
 import org.keyin.airport.Airport;
+import org.keyin.airport.AirportService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,9 +13,12 @@ import java.util.List;
 public class AircraftController {
 
     private AircraftService aircraftService;
+    private AirportService airportService;
 
     public AircraftController() {
         aircraftService = new AircraftService();
+        airportService = new AirportService();
+
     }
 
 
@@ -81,6 +85,27 @@ public class AircraftController {
         throw new RuntimeException("Aircraft not found");
 
 
+    }
+
+    @DeleteMapping("/aircraft/deleteAllowedAirport/{id}/{airportId}")
+    public List<Airport> deleteAllowedAirport(@PathVariable Long id, @PathVariable("airportId") Long iD){
+        List<Aircraft> tempAircraft = aircraftService.searchById(id);
+
+        for(Aircraft aircraft : tempAircraft)
+            if(aircraft.getId().equals(id)){
+                List<Airport> listAllowedAirport = aircraft.getAllowedAirports();
+                for(Airport airport : listAllowedAirport)
+                    if(airport.getId().equals(iD)){
+                        listAllowedAirport.remove(airport);
+                        return  listAllowedAirport;
+
+
+
+                    }
+            }
+       ;
+
+        return null;
     }
 
 
