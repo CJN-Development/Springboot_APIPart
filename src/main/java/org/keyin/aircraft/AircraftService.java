@@ -1,5 +1,7 @@
 package org.keyin.aircraft;
 
+import org.keyin.airport.Airport;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,5 +74,9 @@ public class AircraftService {
 //    Create Aircraft POST
     public void createAircraft(Aircraft aircraft){
         aircraftList.add(aircraft);
+    }
+
+    public List<Airport>getAllowedList(Aircraft aircraft){
+       return aircraft.getAllowedAirports();
     }
 }
