@@ -9,11 +9,9 @@ import java.util.List;
 
 //import org.keyin.airport.Airport;
 
-@Entity
+
 public class City {
-    @Id
-    @SequenceGenerator(name = "city_sequence", sequenceName = "city_sequence", allocationSize = 1, initialValue = 2)
-    @GeneratedValue(generator = "city_sequence")
+
 
     private Long id;
     private String state;
@@ -57,6 +55,10 @@ public class City {
     public void setName(String name) {
         this.name = name;
     }
+    public void addAirportsInCity(Airport airport) {
+        airportsInCity.add(airport);
+    }
+    public List<Airport> getAirportsInCity(){return airportsInCity;}
     @Override
     public String toString() {
         return "City{" +

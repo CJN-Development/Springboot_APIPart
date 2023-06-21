@@ -2,6 +2,7 @@ package org.keyin.city;
 
 
 import org.keyin.StackControls.RequestStack;
+import org.keyin.airport.Airport;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -90,6 +91,30 @@ public class CityController {
         } catch (Exception e) {
             return new ResponseEntity<>("Failed to update city", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+    @PutMapping("/cities/addAirport/{id}")
+    public ResponseEntity<String> createAddAirportsInCity(@PathVariable Long id, @RequestBody Airport airport) {
+        List<City> optionalCity = cityService.searchCityById(id);
+        for(City city: optionalCity)
+            if (city.getId().equals(id)) {
+                city.addAirportsInCity(airport);
+            } else {
+                throw new Error("City with ID not found");
+            }
+        return new ResponseEntity<>("Airport Added To City List", HttpStatus.OK);
+    }
+    @GetMapping("/cities/getAirport/{id}")
+    public List<Airport> getAirportsInCity(@PathVariable Long id){
+        List<City> tempCity = cityService.searchCityById(id);
+
+        for(City city: tempCity)
+            if(city.getId().equals(id)){
+                return city.getAirportsInCity();
+            }
+
+        throw new RuntimeException("City not found");
+
+
     }
 
 
