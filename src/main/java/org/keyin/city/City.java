@@ -11,8 +11,6 @@ import java.util.List;
 
 
 public class City {
-
-
     private Long id;
     private String state;
     private int population;
@@ -21,6 +19,23 @@ public class City {
 
     public City() {
         airportsInCity = new ArrayList<>();
+    }
+
+    public City(Long id, String state, int population, String name) {
+        this.id = id;
+        this.state = state;
+        this.population = population;
+        this.name = name;
+    }
+
+    // Getters and setters
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getState() {
@@ -37,15 +52,6 @@ public class City {
 
     public void setPopulation(int population) {
         this.population = population;
-    }
-
-    public Long getId(){
-        return id;
-    }
-
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -68,5 +74,4 @@ public class City {
                 ", name='" + name + '\'' +
                 '}';
     }
-
 }
