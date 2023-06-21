@@ -16,18 +16,11 @@ public class CityService {
     private Stack<Action> redoStack = new Stack<>();
 
     public CityService() {
-        City city = new City();
-        city.setId(1L);
-        city.setName("St. John's");
-        city.setState("NL");
-        city.setPopulation(150_000);
-        cityList.add(city);
+        City city1 = new City(1L,"NL",150_000,"St. John's");
+        City city2 = new City(2L,"ON",2_900_000,"Toronto");
 
-        City city2 = new City();
-        city2.setId(2L);
-        city2.setName("Gander");
-        city2.setState("NL");
-        city2.setPopulation(50_000);
+
+        cityList.add(city1);
         cityList.add(city2);
     }
 
@@ -168,15 +161,8 @@ public class CityService {
     }
 
 
-
-
     private City cloneCity(City city) {
-        City clone = new City();
-        clone.setId(city.getId());
-        clone.setName(city.getName());
-        clone.setState(city.getState());
-        clone.setPopulation(city.getPopulation());
-        return clone;
+        return new City(city.getId(), city.getState(), city.getPopulation(), city.getName());
     }
 
     // method to log actions with timestamps
