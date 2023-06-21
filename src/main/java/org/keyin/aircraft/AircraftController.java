@@ -88,24 +88,29 @@ public class AircraftController {
     }
 
     @DeleteMapping("/aircraft/deleteAllowedAirport/{id}/{airportId}")
-    public List<Airport> deleteAllowedAirport(@PathVariable Long id, @PathVariable("airportId") Long iD){
+    public ResponseEntity<String> deleteAllowedAirport(@PathVariable Long id, @PathVariable("airportId") Long iD){
         List<Aircraft> tempAircraft = aircraftService.searchById(id);
 
         for(Aircraft aircraft : tempAircraft)
             if(aircraft.getId().equals(id)){
                 List<Airport> listAllowedAirport = aircraft.getAllowedAirports();
+                if(listAllowedAirport.isEmpty()){
+                    return new ResponseEntity<>(" Allowed List Of Aircraft Is Empty ", HttpStatus.OK);
+                }
                 for(Airport airport : listAllowedAirport)
                     if(airport.getId().equals(iD)){
                         listAllowedAirport.remove(airport);
-                        return  listAllowedAirport;
+                        break;
+
 
 
 
                     }
             }
-       ;
+        return new ResponseEntity<>("Airport Deleted From Allowed List Of Aircraft With ID ", HttpStatus.OK);
 
-        return null;
+
+
     }
 
 
