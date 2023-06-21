@@ -1,14 +1,9 @@
 package org.keyin.StackControls;
 
-import java.util.Map;
-
-
-import java.util.Map;
-
 public class Action {
     private String operation;
-    private Long entityId; // Assuming entityId is of type Long
-    private Object originalEntity; // Assuming originalEntity is of type Object
+    private Long entityId;
+    private Object originalEntity;
 
     public Action(String operation, Long entityId, Object originalEntity) {
         this.operation = operation;

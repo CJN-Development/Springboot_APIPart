@@ -52,5 +52,14 @@ public class City {
     public void setName(String name) {
         this.name = name;
     }
+    @Override
+    public String toString() {
+        return "City{" +
+                "id=" + id +
+                ", state='" + state + '\'' +
+                ", population=" + population +
+                ", name='" + name + '\'' +
+                '}';
+    }
 
 }
