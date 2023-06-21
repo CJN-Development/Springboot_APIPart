@@ -88,6 +88,15 @@ public class CityService {
 
         return cityList;
     }
+    public List<City> searchCityById(Long id){
+        List<City> idCitySearchResult = new ArrayList<>();
+        for(City city: cityList){
+            if(city.getId().equals(id)){
+                idCitySearchResult.add(city);
+            }
+        }
+        return idCitySearchResult;
+    }
 
 
 

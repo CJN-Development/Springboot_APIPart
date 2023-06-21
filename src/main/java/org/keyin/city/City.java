@@ -1,23 +1,24 @@
 package org.keyin.city;
 
+import org.keyin.airport.Airport;
+
 import javax.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 //import org.keyin.airport.Airport;
 
-@Entity
-public class City {
 
-    @Id
-    @SequenceGenerator(name = "city_sequence", sequenceName = "city_sequence", allocationSize = 1, initialValue = 2)
-    @GeneratedValue(generator = "city_sequence")
+public class City {
     private Long id;
     private String state;
     private int population;
     private String name;
+    private List<Airport>airportsInCity;
 
     public City() {
+        airportsInCity = new ArrayList<>();
     }
 
     public City(Long id, String state, int population, String name) {
@@ -60,7 +61,10 @@ public class City {
     public void setName(String name) {
         this.name = name;
     }
-
+    public void addAirportsInCity(Airport airport) {
+        airportsInCity.add(airport);
+    }
+    public List<Airport> getAirportsInCity(){return airportsInCity;}
     @Override
     public String toString() {
         return "City{" +
