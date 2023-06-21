@@ -1,7 +1,10 @@
 package org.keyin.city;
 
+import org.keyin.airport.Airport;
+
 import javax.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 //import org.keyin.airport.Airport;
@@ -16,8 +19,10 @@ public class City {
     private String state;
     private int population;
     private String name;
+    private List<Airport>airportsInCity;
 
     public City() {
+        airportsInCity = new ArrayList<>();
     }
 
     public String getState() {

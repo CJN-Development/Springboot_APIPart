@@ -6,12 +6,14 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="Springboot_APIPart" />
         <module name="Springboot_APIPart2" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="Springboot_APIPart" options="-parameters" />
       <module name="Springboot_APIPart2" options="-parameters" />
     </option>
   </component>
