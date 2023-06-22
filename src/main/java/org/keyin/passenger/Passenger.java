@@ -1,5 +1,11 @@
 package org.keyin.passenger;
 
+import org.keyin.aircraft.Aircraft;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class Passenger {
 
     private Long id;
@@ -9,6 +15,10 @@ public class Passenger {
     private String lastName;
 
     private int phoNum;
+
+    private List<Aircraft> aircraftsList;
+
+    public Passenger(){aircraftsList = new ArrayList<>();}
 
     public Long getId() {
         return id;
@@ -40,6 +50,18 @@ public class Passenger {
 
     public void setPhoNum(int phoNum) {
         this.phoNum = phoNum;
+    }
+
+    public List<Aircraft> getAircraftList() {
+        return aircraftsList;
+    }
+
+    public void addAircraftList(Aircraft aircraft) {
+        aircraftsList.add(aircraft);
+    }
+
+    public void setAircraftList(List<Aircraft> aircraftsList) {
+        this.aircraftsList = aircraftsList;
     }
 }
 

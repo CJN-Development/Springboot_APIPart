@@ -1,6 +1,7 @@
 package org.keyin.passenger;
 
 
+import org.keyin.airport.Airport;
 import org.keyin.passenger.Passenger;
 
 import java.util.ArrayList;
@@ -41,6 +42,18 @@ public class PassengerService {
             }
         }
         return searchResults;
+    }
+
+    public List<Passenger> searchById(Long id){
+        List<Passenger> idSearchResults = new ArrayList<>();
+        for(Passenger passenger: passengerList){
+            if(passenger.getId().equals(id)){
+                idSearchResults.add(passenger);
+            }
+
+
+        }
+        return idSearchResults;
     }
 
     public List<Passenger> deletePassenger(Long id) {
