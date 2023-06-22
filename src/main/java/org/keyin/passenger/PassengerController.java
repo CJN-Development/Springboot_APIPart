@@ -1,5 +1,7 @@
 package org.keyin.passenger;
 
+import org.keyin.airport.Airport;
+import org.keyin.aircraft.Aircraft;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -61,5 +63,30 @@ public class PassengerController {
         } catch (Exception e) {
             return new ResponseEntity<>("Failed to update passenger", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @PutMapping("/passenger/addAircraft/{id}")
+    public ResponseEntity<String> createAddAircraft(@PathVariable Long id, @RequestBody Aircraft aircraft){
+        List<Passenger> optionalPassenger = passengerService.searchById(id);
+        for (Passenger passenger : optionalPassenger){
+            if (passenger.getId().equals(id)){
+                passenger.addAircraftList(aircraft);
+            } else {
+                throw new Error("Aircraft with ID not found");
+            }
+        }
+        return new ResponseEntity<>("Aircraft Added To List", HttpStatus.OK);
+    }
+
+    @GetMapping("/passenger/getAircrafts/{id}")
+    public List<Aircraft> getPassengerList(@PathVariable Long id){
+        List<Passenger> tempPassenger = passengerService.searchById(id);
+
+        for (Passenger passenger : tempPassenger){
+            if (passenger.getId().equals(id)){
+                return passenger.getAircraftList();
+            }
+        }
+        throw new RuntimeException("Aircraft not found");
     }
 }
