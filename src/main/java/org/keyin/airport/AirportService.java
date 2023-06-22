@@ -1,5 +1,7 @@
 package org.keyin.airport;
 
+import org.keyin.aircraft.Aircraft;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +35,18 @@ public class AirportService {
             }
         }
         return searchResults;
+    }
+
+    public List<Airport> searchById(Long id){
+        List<Airport> idSearchResult = new ArrayList<>();
+        for(Airport airport: airportList){
+            if(airport.getId().equals(id)){
+                idSearchResult.add(airport);
+            }
+
+
+        }
+        return idSearchResult;
     }
 
     public List<Airport> deleteAirport(Long id){
