@@ -26,6 +26,7 @@ public class City {
         this.state = state;
         this.population = population;
         this.name = name;
+        airportsInCity = new ArrayList<>();
     }
 
     // Getters and setters

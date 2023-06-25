@@ -42,7 +42,7 @@ public class AircraftController {
     }
 
     @PutMapping("/aircraft/updateAircraft/{id}")
-    public ResponseEntity<String> updateCity(@PathVariable Long id, @RequestBody Aircraft updatedAircraft) {
+    public ResponseEntity<String> updateAircraft(@PathVariable Long id, @RequestBody Aircraft updatedAircraft) {
         try {
             List<Aircraft> aircraftList = aircraftService.getAllAircraft();
             for (Aircraft aircraft : aircraftList) {
@@ -52,7 +52,7 @@ public class AircraftController {
                     aircraft.setTailNumber(updatedAircraft.getTailNumber());
                     aircraft.setType(updatedAircraft.getType());
 
-                    return new ResponseEntity<>("City updated successfully", HttpStatus.OK);
+                    return new ResponseEntity<>("Aircraft Updated!", HttpStatus.OK);
                 }
             }
             return new ResponseEntity<>("Aircraft not found", HttpStatus.NOT_FOUND);
