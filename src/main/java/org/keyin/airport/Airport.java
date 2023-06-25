@@ -15,6 +15,12 @@ public class Airport {
 
     public Airport(){passengersList = new ArrayList<>();}
 
+    public Airport(Long id, String name, String code) {
+        this.id = id;
+        this.name = name;
+        this.code = code;
+    }
+
     public Long getId() {
         return id;
     }
@@ -49,5 +55,15 @@ public class Airport {
 
     public void setPassengersList(List<Passenger> passengersList) {
         this.passengersList = passengersList;
+    }
+
+    @Override
+    public String toString() {
+        return "Airport{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", code='" + code + '\'' +
+                ", passengersList=" + passengersList +
+                '}';
     }
 }

@@ -35,6 +35,26 @@ public class AirportController {
         airportService.createAirport(airport);
     }
 
+    @PostMapping("/airport/undo")
+    public ResponseEntity<String> undoAction() {
+        try {
+            airportService.undoAction();
+            return new ResponseEntity<>("Undo action successful", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Failed to undo action", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/cities/redo")
+    public ResponseEntity<String> redoAction() {
+        try {
+            airportService.redoAction(); // Implement the redoAction() method in the CityService class
+            return new ResponseEntity<>("Redo action successful", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Failed to redo action", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PutMapping("/airport/updateAirport/{id}")
     public ResponseEntity<String> updateCity(@PathVariable Long id, @RequestBody Airport updatedAirport) {
         try {
