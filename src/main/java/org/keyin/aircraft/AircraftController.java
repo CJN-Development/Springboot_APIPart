@@ -37,8 +37,14 @@ public class AircraftController {
     }
 
     @PostMapping("/aircraft/createAircraft")
-    public void createAircraft(@RequestBody Aircraft aircraft) {
-        aircraftService.createAircraft(aircraft);
+    public ResponseEntity<String> createAircraft(@RequestBody Aircraft aircraft) {
+        if (!aircraftService.existsAircraft(aircraft)) {
+            aircraftService.createAircraft(aircraft);
+            return  new ResponseEntity<>("Aircraft has Been Created!", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Failed To Create Aircraft It Already Exist", HttpStatus.NOT_ACCEPTABLE);
+
+        }
     }
 
     @PutMapping("/aircraft/updateAircraft/{id}")

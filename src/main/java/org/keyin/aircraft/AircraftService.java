@@ -79,4 +79,12 @@ public class AircraftService {
     public List<Airport>getAllowedList(Aircraft aircraft){
        return aircraft.getAllowedAirports();
     }
+
+    public boolean existsAircraft(Aircraft aircraft) {
+        for(Aircraft aircraft1: aircraftList){
+            if(aircraft1.getId().equals(aircraft.getId())){
+                return true;
+            }
+        } return  false;
+    }
 }
