@@ -4,9 +4,7 @@ import org.keyin.StackControls.Action;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public class CityService {
 
@@ -14,6 +12,8 @@ public class CityService {
     private Stack<Action> actionStack = new Stack<>();
     private Stack<Action> undoStack = new Stack<>();
     private Stack<Action> redoStack = new Stack<>();
+    private Map<Long, City> updatedCities = new HashMap<>();
+
 
     public CityService() {
         City city1 = new City(1L,"NL",150_000,"St. John's");
@@ -81,6 +81,7 @@ public class CityService {
                     city.setName(updatedCity.getName());
                     city.setState(updatedCity.getState());
                     city.setPopulation(updatedCity.getPopulation());
+                    updatedCities.put(updatedCity.getId(), cloneCity(city)); // Store the updated city
                     break;
                 }
             }
@@ -100,8 +101,8 @@ public class CityService {
 
 
 
-/** even tried using a new stack specific to these actions to store the updated city before the
- * undo reverts back to the original created state before updating and that didn't work */
+    /** even tried using a new stack specific to these actions to store the updated city before the
+     * undo reverts back to the original created state before updating and that didn't work */
 
     // second attempt at undo redo updated functionality
     public void undoAction() {
@@ -147,7 +148,7 @@ public class CityService {
                 createCity((City) action.getOriginalEntity());
                 logActionWithTimestamp("Redo CREATE action");
             } else if (action.getOperation().equals("UPDATE")) {
-                City updatedCity = (City) action.getOriginalEntity();
+                City updatedCity = updatedCities.get(action.getEntityId()); // Get the updated city from the stored map
 
                 // Find the city in the list
                 for (City city : cityList) {
@@ -169,7 +170,6 @@ public class CityService {
         }
     }
 
-
     private City cloneCity(City city) {
         return new City(city.getId(), city.getState(), city.getPopulation(), city.getName());
     }
@@ -182,3 +182,5 @@ public class CityService {
         System.out.println(formattedTimestamp + " - " + action);
     }
 }
+
+
