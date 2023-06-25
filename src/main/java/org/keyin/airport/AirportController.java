@@ -45,7 +45,7 @@ public class AirportController {
         }
     }
 
-    @PostMapping("/cities/redo")
+    @PostMapping("/airport/redo")
     public ResponseEntity<String> redoAction() {
         try {
             airportService.redoAction(); // Implement the redoAction() method in the CityService class
