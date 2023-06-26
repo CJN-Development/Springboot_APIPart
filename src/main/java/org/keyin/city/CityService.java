@@ -13,12 +13,11 @@ public class CityService {
     private Stack<Action> undoStack = new Stack<>();
     private Stack<Action> redoStack = new Stack<>();
     private Map<Long, City> updatedCities = new HashMap<>();
-
+    private List<String> cityActions = new ArrayList<>(); // List to store the logged city actions
 
     public CityService() {
-        City city1 = new City(1L,"NL",150_000,"St. John's");
-        City city2 = new City(2L,"ON",2_900_000,"Toronto");
-
+        City city1 = new City(1L, "NL", 150_000, "St. John's");
+        City city2 = new City(2L, "ON", 2_900_000, "Toronto");
 
         cityList.add(city1);
         cityList.add(city2);
@@ -51,6 +50,7 @@ public class CityService {
         }
         return cityList;
     }
+
     public List<City> createCity(City city) {
         cityList.add(city);
         Action action = new Action("CREATE", city.getId(), city); // Create an action
@@ -89,22 +89,17 @@ public class CityService {
 
         return cityList;
     }
-    public List<City> searchCityById(Long id){
+
+    public List<City> searchCityById(Long id) {
         List<City> idCitySearchResult = new ArrayList<>();
-        for(City city: cityList){
-            if(city.getId().equals(id)){
+        for (City city : cityList) {
+            if (city.getId().equals(id)) {
                 idCitySearchResult.add(city);
             }
         }
         return idCitySearchResult;
     }
 
-
-
-    /** even tried using a new stack specific to these actions to store the updated city before the
-     * undo reverts back to the original created state before updating and that didn't work */
-
-    // second attempt at undo redo updated functionality
     public void undoAction() {
         if (!undoStack.isEmpty()) {
             Action action = undoStack.pop();
@@ -116,15 +111,13 @@ public class CityService {
                 deleteCity(entityId);
                 logActionWithTimestamp("Undo CREATE action");
             } else if (operation.equals("UPDATE")) {
-                // Find the city in the list
                 for (City city : cityList) {
                     if (city.getId().equals(entityId)) {
-                        City clonedCity = cloneCity(city); // Clone the updated city
+                        City clonedCity = cloneCity(city);
                         clonedCity.setName(((City) originalEntity).getName());
                         clonedCity.setState(((City) originalEntity).getState());
                         clonedCity.setPopulation(((City) originalEntity).getPopulation());
 
-                        // Replace the city with the cloned version
                         cityList.remove(city);
                         cityList.add(clonedCity);
                         break;
@@ -136,21 +129,20 @@ public class CityService {
                 logActionWithTimestamp("Undo DELETE action");
             }
 
-            redoStack.push(action); // Store the original action in the redo stack
+            redoStack.push(action);
         }
     }
 
     public void redoAction() {
         if (!redoStack.isEmpty()) {
-            Action action = redoStack.pop(); // Retrieve the original action from redo stack
+            Action action = redoStack.pop();
 
             if (action.getOperation().equals("CREATE")) {
                 createCity((City) action.getOriginalEntity());
                 logActionWithTimestamp("Redo CREATE action");
             } else if (action.getOperation().equals("UPDATE")) {
-                City updatedCity = updatedCities.get(action.getEntityId()); // Get the updated city from the stored map
+                City updatedCity = updatedCities.get(action.getEntityId());
 
-                // Find the city in the list
                 for (City city : cityList) {
                     if (city.getId().equals(updatedCity.getId())) {
                         city.setName(updatedCity.getName());
@@ -166,7 +158,7 @@ public class CityService {
                 logActionWithTimestamp("Redo DELETE action");
             }
 
-            undoStack.push(action); // Store the original action in the undo stack
+            undoStack.push(action);
         }
     }
 
@@ -174,13 +166,30 @@ public class CityService {
         return new City(city.getId(), city.getState(), city.getPopulation(), city.getName());
     }
 
-    // method to log actions with timestamps
     private void logActionWithTimestamp(String action) {
         LocalDateTime timestamp = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd H:mm:s");
         String formattedTimestamp = timestamp.format(formatter);
-        System.out.println(formattedTimestamp + " - " + action);
+        String logEntry = formattedTimestamp + " - " + action;
+        System.out.println(logEntry);
+        cityActions.add(logEntry); // Add the action to the cityActions list
     }
+
+    public List<String> getAllCityActions() {
+        List<String> actionList = new ArrayList<>();
+
+        for (Action action : actionStack) {
+            String operation = action.getOperation();
+            Long entityId = action.getEntityId();
+
+            // Generate the action string based on the operation and entity ID
+            String actionString = operation + " City with ID: " + entityId;
+            actionList.add(actionString);
+        }
+
+        return actionList;
+    }
+
     public boolean existsCity(City city) {
         for (City existingCity : cityList) {
             if (existingCity.getId().equals(city.getId())) {
@@ -190,5 +199,3 @@ public class CityService {
         return false;
     }
 }
-
-
