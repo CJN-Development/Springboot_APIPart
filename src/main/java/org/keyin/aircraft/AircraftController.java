@@ -57,9 +57,19 @@ public class AircraftController {
     public ResponseEntity<String> createAircraft(@RequestBody Aircraft aircraft) {
         RequestStack request = new RequestStack("POST", "/aircraft/createAircraft", LocalDateTime.now());
         requestStack.push(request);
-        System.out.println("Logged request: POST /aircraft/createAircraft at " + request.getTimestamp());
+
         try {
-            aircraftService.createAircraft(aircraft);
+            if(!aircraftService.existsAircraft(aircraft)){
+                aircraftService.createAircraft(aircraft);
+                System.out.println("Logged request: POST /aircraft/createAircraft at " + request.getTimestamp());
+
+            } else{
+                System.err.println("Logged request FAILED: POST /aircraft/createAircraft at " + request.getTimestamp());
+
+                return new ResponseEntity<>("Failed to create Aircraft Aircraft Already exist!", HttpStatus.INTERNAL_SERVER_ERROR);
+
+            }
+
             return new ResponseEntity<>("Aircraft created successfully", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Failed to create Aircraft", HttpStatus.INTERNAL_SERVER_ERROR);

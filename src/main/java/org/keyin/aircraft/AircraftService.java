@@ -97,10 +97,18 @@ public class AircraftService {
     public List<Aircraft> createAircraft(Aircraft aircraft){
         aircraftList.add(aircraft);
         Action action = new Action("CREATE", aircraft.getId(), aircraft); // Create an action
-        actionStack.push(action); // Push the action onto the stack
-        undoStack.push(action); // Push the action onto the undo stack
-        redoStack.clear(); // Clear the redo stack
-        aircraftActions.add( logActionWithTimestamp("Created Aircraft"));
+        actionStack.push(action);
+        undoStack.push(action);
+        redoStack.clear();
+
+        if(existsAircraft(aircraft)){
+            aircraftActions.add(logActionWithTimestamp("Created Aircraft"));
+
+        } else {
+            aircraftActions.add(logActionWithTimestamp("Created Aircraft Failed"));
+
+        }
+
         return  aircraftList;
     }
 
