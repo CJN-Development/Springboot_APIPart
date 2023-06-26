@@ -72,11 +72,18 @@ public class CityController {
         RequestStack request = new RequestStack("POST", "/cities/createCity", LocalDateTime.now());
         requestStack.push(request);
         System.out.println("Logged request: POST /cities/createCity at " + request.getTimestamp());
+
         try {
-            cityService.createCity(city);
-            return new ResponseEntity<>("City created successfully", HttpStatus.OK);
+            if (!cityService.existsCity(city)) {
+                cityService.createCity(city);
+                System.out.println("Logged request: POST /cities/createCity at " + request.getTimestamp());
+                return new ResponseEntity<>("City created successfully", HttpStatus.OK);
+            } else {
+                System.err.println("Logged request FAILED: POST /cities/createCity at " + request.getTimestamp());
+                return new ResponseEntity<>("Failed to create City. City already exists!", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         } catch (Exception e) {
-            return new ResponseEntity<>("Failed to create city", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Failed to create City", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

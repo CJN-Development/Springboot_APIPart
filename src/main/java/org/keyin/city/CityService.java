@@ -181,6 +181,14 @@ public class CityService {
         String formattedTimestamp = timestamp.format(formatter);
         System.out.println(formattedTimestamp + " - " + action);
     }
+    public boolean existsCity(City city) {
+        for (City existingCity : cityList) {
+            if (existingCity.getId().equals(city.getId())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
 
