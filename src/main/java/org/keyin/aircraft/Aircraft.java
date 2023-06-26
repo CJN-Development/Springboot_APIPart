@@ -16,6 +16,14 @@ public class Aircraft {
 
     private List<Airport> allowedAirports;
 
+    public Aircraft(Long id, String tailNumber, String type, String brand, String model) {
+        this.id = id;
+        this.tailNumber = tailNumber;
+        this.type = type;
+        this.brand = brand;
+        this.model = model;
+    }
+
     public Aircraft(){
         allowedAirports = new ArrayList<>();
     }
