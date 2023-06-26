@@ -35,14 +35,14 @@ const aircrafts = [
     "model": "784"
   },
   {
-    "id": 13,
+    "id": 160,
     "tailNumber": "BFYN-56788888",
     "type": "Passenger",
     "brand": "Reet7",
     "model": "785"
   },
   {
-    "id": 14,
+    "id": 140,
     "tailNumber": "BFJK-56788888",
     "type": "Passenger",
     "brand": "Reet8",

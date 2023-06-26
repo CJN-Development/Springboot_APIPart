@@ -1,12 +1,15 @@
 package org.keyin.aircraft;
 
+import org.keyin.StackControls.RequestStack;
 import org.keyin.airport.Airport;
 import org.keyin.airport.AirportService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Stack;
 
 @RestController
 @CrossOrigin
@@ -15,55 +18,86 @@ public class AircraftController {
     private AircraftService aircraftService;
     private AirportService airportService;
 
+    private Stack<RequestStack> requestStack; // Stack to store the request history
+
+
     public AircraftController() {
         aircraftService = new AircraftService();
         airportService = new AirportService();
+        requestStack = new Stack<>();
 
     }
 
 
     @GetMapping("/aircraft")
     public List<Aircraft> getAllAircraft() {
+        RequestStack request = new RequestStack("GET", "/aircraft", LocalDateTime.now());
+        requestStack.push(request);
+        System.out.println("Logged request: GET /aircraft at " + request.getTimestamp());
         return aircraftService.getAllAircraft();
     }
 
     @GetMapping("/aircraft/aircraftsearch")
     public List<Aircraft> search(@RequestParam String searchTerm) {
+        RequestStack request = new RequestStack("GET", "/aircraft/aircraftsearch", LocalDateTime.now());
+        requestStack.push(request);
+        System.out.println("Logged request: GET /aircraft/aircraftsearch at " + request.getTimestamp());
+
         return aircraftService.searchAircraft(searchTerm);
     }
     @DeleteMapping("/aircraft/deleteaircraft")
     public List<Aircraft> delete(@RequestParam Long id) {
+        RequestStack request = new RequestStack("DELETE", "/aircraft/deleteaircraft", LocalDateTime.now());
+        requestStack.push(request);
+        System.out.println("Logged request: DELETE /aircraft/deleteaircraft at " + request.getTimestamp());
         return aircraftService.deleteAircraft(id);
     }
 
     @PostMapping("/aircraft/createAircraft")
     public ResponseEntity<String> createAircraft(@RequestBody Aircraft aircraft) {
-        if (!aircraftService.existsAircraft(aircraft)) {
+        RequestStack request = new RequestStack("POST", "/aircraft/createAircraft", LocalDateTime.now());
+        requestStack.push(request);
+        System.out.println("Logged request: POST /aircraft/createAircraft at " + request.getTimestamp());
+        try {
             aircraftService.createAircraft(aircraft);
-            return  new ResponseEntity<>("Aircraft has Been Created!", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("Failed To Create Aircraft It Already Exist", HttpStatus.NOT_ACCEPTABLE);
-
+            return new ResponseEntity<>("Aircraft created successfully", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Failed to create Aircraft", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
+    @PostMapping("/aircraft/undo")
+    public ResponseEntity<String> undoAction() {
+        try {
+            aircraftService.undoAction();
+            return new ResponseEntity<>("Undo action successful", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Failed to undo action", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/aircraft/redo")
+    public ResponseEntity<String> redoAction() {
+        try {
+            aircraftService.redoAction(); // Implement the redoAction() method in the CityService class
+            return new ResponseEntity<>("Redo action successful", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Failed to redo action", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+
     @PutMapping("/aircraft/updateAircraft/{id}")
     public ResponseEntity<String> updateAircraft(@PathVariable Long id, @RequestBody Aircraft updatedAircraft) {
+        RequestStack request = new RequestStack("PUT", "/aircraft/updateAircraft/" + id, LocalDateTime.now());
+        requestStack.push(request);
+        System.out.println("Logged request: PUT /aircraft/updateAircraft/" + id + " at " + request.getTimestamp());
         try {
-            List<Aircraft> aircraftList = aircraftService.getAllAircraft();
-            for (Aircraft aircraft : aircraftList) {
-                if (aircraft.getId().equals(id)) {
-                    aircraft.setModel(updatedAircraft.getModel());
-                    aircraft.setBrand(updatedAircraft.getBrand());
-                    aircraft.setTailNumber(updatedAircraft.getTailNumber());
-                    aircraft.setType(updatedAircraft.getType());
-
-                    return new ResponseEntity<>("Aircraft Updated!", HttpStatus.OK);
-                }
-            }
-            return new ResponseEntity<>("Aircraft not found", HttpStatus.NOT_FOUND);
+            aircraftService.updateAircraft(updatedAircraft);
+            return new ResponseEntity<>("Aircraft updated successfully", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("Failed to update city", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Failed to update update Aircraft", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -115,6 +149,18 @@ public class AircraftController {
             }
         return new ResponseEntity<>("Airport Deleted From Allowed List Of Aircraft With ID ", HttpStatus.OK);
 
+
+
+    }
+
+    @GetMapping("/aircraft/getAircraftActions")
+    public List<String> getAircraftActions(){
+        List<String> actionList = aircraftService.getAllAircraftActions();
+
+
+        System.out.println(actionList);
+
+        return  actionList;
 
 
     }
