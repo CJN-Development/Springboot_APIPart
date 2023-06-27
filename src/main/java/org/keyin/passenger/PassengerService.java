@@ -14,6 +14,8 @@ public class PassengerService {
 
     private List<Passenger> passengerList = new ArrayList<>();
 
+    private List<String> passengerActions = new ArrayList<>();
+
     private Stack<Action> actionStack = new Stack<>();
     private Stack<Action> undoStack = new Stack<>();
     private Stack<Action> redoStack = new Stack<>();
@@ -36,6 +38,10 @@ public class PassengerService {
 
     public List<Passenger> getAllPassenger() {
         return passengerList;
+    }
+
+    public List<String> getAllPassengerActions(){
+        return passengerActions;
     }
 
     public List<Passenger> searchPassenger(String searchInput) {

@@ -107,4 +107,15 @@ public class PassengerController {
             return new ResponseEntity<>("Failed to redo action", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/passenger/getPassengerActions")
+    public List<String> getAircraftActions(){
+        List<String> actionList = passengerService.getAllPassengerActions();
+
+
+        System.out.println(actionList);
+
+        return  actionList;
+
+    }
 }
