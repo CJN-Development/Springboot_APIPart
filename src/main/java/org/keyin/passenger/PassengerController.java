@@ -1,18 +1,16 @@
 package org.keyin.passenger;
 
-import org.keyin.airport.Airport;
 import org.keyin.aircraft.Aircraft;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
 
-import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -88,5 +86,25 @@ public class PassengerController {
             }
         }
         throw new RuntimeException("Aircraft not found");
+    }
+
+    @PostMapping("/passenger/undo")
+    public ResponseEntity<String> undoAction() {
+        try {
+            passengerService.undoAction();
+            return new ResponseEntity<>("Undo action successful", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Failed to undo action", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/passenger/redo")
+    public ResponseEntity<String> redoAction() {
+        try {
+            passengerService.redoAction();
+            return new ResponseEntity<>("Redo action successful", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Failed to redo action", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

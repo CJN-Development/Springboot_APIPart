@@ -20,6 +20,13 @@ public class Passenger {
 
     public Passenger(){aircraftsList = new ArrayList<>();}
 
+    public Passenger(Long id, String firstName, int phoNum) {
+        this.id = id;
+        this.firstName = firstName;
+        this.phoNum = phoNum;
+    }
+
+
     public Long getId() {
         return id;
     }
@@ -62,6 +69,16 @@ public class Passenger {
 
     public void setAircraftList(List<Aircraft> aircraftsList) {
         this.aircraftsList = aircraftsList;
+    }
+
+    @Override
+    public String toString() {
+        return "Passenger{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", phoNum='" + phoNum + '\'' +
+                ", aircraftList=" + aircraftsList +
+                '}';
     }
 }
 
