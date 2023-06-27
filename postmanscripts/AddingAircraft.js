@@ -1,93 +1,93 @@
 const aircrafts = [
   {
-    "id": 8,
+    "id": 1,
     "tailNumber": "AF-12344444",
     "type": "Passenger",
-    "brand": "Reet2",
+    "brand": "Boeing",
     "model": "7573"
   },
   {
-    "id": 9,
+    "id": 2,
     "tailNumber": "BF-56788888",
     "type": "Passenger",
-    "brand": "Reet3",
-    "model": "781"
+    "brand": "Airbus",
+    "model": "7574"
   },
   {
-    "id": 10,
+    "id": 3,
     "tailNumber": "CF-56788888",
     "type": "Passenger",
-    "brand": "Reet4",
-    "model": "782"
+    "brand": "Boeing",
+    "model": "7575"
   },
   {
-    "id": 11,
+    "id": 4,
     "tailNumber": "BJ-56788888",
     "type": "Passenger",
-    "brand": "Reet5",
-    "model": "783"
+    "brand": "Airbus",
+    "model": "7576"
   },
   {
-    "id": 12,
+    "id": 5,
     "tailNumber": "BYF-56788888",
     "type": "Passenger",
-    "brand": "Reet6",
-    "model": "784"
+    "brand": "Boeing",
+    "model": "7577"
   },
   {
-    "id": 160,
+    "id": 6,
     "tailNumber": "BFYN-56788888",
     "type": "Passenger",
-    "brand": "Reet7",
-    "model": "785"
+    "brand": "Boeing",
+    "model": "7578"
   },
   {
-    "id": 140,
+    "id": 7,
     "tailNumber": "BFJK-56788888",
     "type": "Passenger",
-    "brand": "Reet8",
-    "model": "786"
+    "brand": "Boeing",
+    "model": "7579"
   },
   {
-    "id": 15,
+    "id": 8,
     "tailNumber": "BFWE-56788888",
     "type": "Passenger",
-    "brand": "Reet9",
+    "brand": "Boeing",
     "model": "789"
   },
   {
-    "id": 16,
+    "id": 9,
     "tailNumber": "BFFG-56788888",
     "type": "Passenger",
-    "brand": "Reet31",
+    "brand": "Airbus",
     "model": "12787"
   },
   {
-    "id": 17,
+    "id": 10,
     "tailNumber": "OPF-56788888",
     "type": "Passenger",
-    "brand": "Reet36",
+    "brand": "Airbus",
     "model": "45787"
   },
   {
-    "id": 18,
+    "id": 11,
     "tailNumber": "LL-56788888",
     "type": "Passenger",
-    "brand": "Reet30",
+    "brand": "Airbus",
     "model": "89787"
   },
   {
-    "id": 19,
+    "id": 12,
     "tailNumber": "PPP-56788888",
     "type": "Passenger",
-    "brand": "Reet316",
+    "brand": "Airbus",
     "model": "56787"
   },
   {
-    "id": 20,
+    "id": 13,
     "tailNumber": "DD-56788888",
     "type": "Passenger",
-    "brand": "Reet344",
+    "brand": "Airbus",
     "model": "99787"
   },
 
