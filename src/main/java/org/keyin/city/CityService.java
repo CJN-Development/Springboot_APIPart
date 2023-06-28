@@ -40,10 +40,10 @@ public class CityService {
     public List<City> deleteCity(Long id) {
         for (City city : cityList) {
             if (city.getId().equals(id)) {
-                Action action = new Action("DELETE", city.getId(), city); // Create an action
-                actionStack.push(action); // Push the action onto the stack
-                undoStack.push(action); // Push the action onto the undo stack
-                redoStack.clear(); // Clear the redo stack
+                Action action = new Action("DELETE", city.getId(), city);
+                actionStack.push(action);
+                undoStack.push(action);
+                redoStack.clear();
                 cityList.remove(city);
                 break;
             }
@@ -53,10 +53,10 @@ public class CityService {
 
     public List<City> createCity(City city) {
         cityList.add(city);
-        Action action = new Action("CREATE", city.getId(), city); // Create an action
-        actionStack.push(action); // Push the action onto the stack
-        undoStack.push(action); // Push the action onto the undo stack
-        redoStack.clear(); // Clear the redo stack
+        Action action = new Action("CREATE", city.getId(), city);
+        actionStack.push(action);
+        undoStack.push(action);
+        redoStack.clear();
         return cityList;
     }
 
@@ -70,10 +70,10 @@ public class CityService {
         }
 
         if (originalCity != null) {
-            Action action = new Action("UPDATE", updatedCity.getId(), originalCity); // Create an action with the original city
-            actionStack.push(action); // Push the action onto the stack
-            undoStack.push(action); // Push the action onto the undo stack
-            redoStack.clear(); // Clear the redo stack
+            Action action = new Action("UPDATE", updatedCity.getId(), originalCity);
+            actionStack.push(action);
+            undoStack.push(action);
+            redoStack.clear();
 
             // Update the city with the new values
             for (City city : cityList) {

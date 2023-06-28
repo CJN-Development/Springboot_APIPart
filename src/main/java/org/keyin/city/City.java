@@ -1,14 +1,8 @@
 package org.keyin.city;
 
 import org.keyin.airport.Airport;
-
-import javax.persistence.*;
-
 import java.util.ArrayList;
 import java.util.List;
-
-//import org.keyin.airport.Airport;
-
 
 public class City {
     private Long id;
@@ -28,8 +22,6 @@ public class City {
         this.name = name;
         airportsInCity = new ArrayList<>();
     }
-
-    // Getters and setters
 
     public Long getId() {
         return id;

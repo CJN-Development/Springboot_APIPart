@@ -125,6 +125,7 @@ public class CityController {
     }
     @GetMapping("/cities/getCityActions")
     public List<String> getCityActions() {
+
         List<String> actionList = cityService.getAllCityActions();
 
         System.out.println(actionList);
