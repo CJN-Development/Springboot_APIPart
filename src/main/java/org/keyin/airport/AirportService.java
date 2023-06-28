@@ -6,9 +6,7 @@ import org.keyin.city.City;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public class AirportService {
 
@@ -17,6 +15,9 @@ public class AirportService {
     private Stack<Action> actionStack = new Stack<>();
     private Stack<Action> undoStack = new Stack<>();
     private Stack<Action> redoStack = new Stack<>();
+    private Map<Long, Airport> updatedAirports = new HashMap<>();
+
+    private List<String> airportActions = new ArrayList<>();
 
     public AirportService(){
         Airport airport = new Airport();
@@ -35,6 +36,10 @@ public class AirportService {
     }
 
     public List<Airport> getAllAirports(){return airportList;}
+
+    public List<String> getAllAirportsActions(){
+        return airportActions;
+    }
 
     public List<Airport> searchAirport(String searchTerm){
         List<Airport> searchResults = new ArrayList<>();
@@ -61,14 +66,67 @@ public class AirportService {
     public List<Airport> deleteAirport(Long id){
         for (Airport airport: airportList){
             if (airport.getId().equals(id)) {
+                Action action = new Action("DELETE", airport.getId(), airport);
+                actionStack.push(action);
+                undoStack.push(action);
+                redoStack.clear();
                 airportList.remove(airport);
+                airportActions.add( logActionWithTimestamp("Deleted Airport action"));
+                break;
             }
         }
         return airportList;
     }
 
-    public void createAirport(Airport airport){
+    public List<Airport> createAirport(Airport airport){
         airportList.add(airport);
+        Action action = new Action("CREATE", airport.getId(), airport);
+        actionStack.push(action);
+        undoStack.push(action);
+        redoStack.clear();
+         if (existsAirport(airport)){
+             airportActions.add(logActionWithTimestamp("Created Airport"));
+         } else {
+             airportActions.add(logActionWithTimestamp("Created Airport Failed"));
+         }
+         return airportList;
+    }
+
+    public boolean existsAirport(Airport airport){
+        for (Airport airport1 : airportList){
+            if (airport1.getId().equals(airport.getId())){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public List<Airport> updateAirport(Airport updatedAirport){
+        Airport originalAirport = null;
+        for (Airport airport : airportList){
+            if (airport.getId().equals(updatedAirport.getId())){
+                originalAirport = cloneAirport(airport);
+                break;
+            }
+        }
+        if (originalAirport != null){
+            Action action = new Action("UPDATE", updatedAirport.getId(), originalAirport);
+            actionStack.push(action);
+            undoStack.push(action);
+            redoStack.clear();
+
+            for (Airport airport : airportList){
+                if (airport.getId().equals(updatedAirport.getId())){
+                    airport.setName(updatedAirport.getName());
+                    airport.setCode(updatedAirport.getCode());
+
+                    updatedAirports.put(updatedAirport.getId(), cloneAirport(airport));
+                    airportActions.add(logActionWithTimestamp("Airport Updated"));
+                    break;
+                }
+            }
+        }
+        return airportList;
     }
 
     public void undoAction() {
@@ -138,10 +196,11 @@ public class AirportService {
     }
 
     // method to log actions with timestamps
-    private void logActionWithTimestamp(String action) {
+    private String logActionWithTimestamp(String action) {
         LocalDateTime timestamp = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd H:mm:s");
         String formattedTimestamp = timestamp.format(formatter);
         System.out.println(formattedTimestamp + " - " + action);
+        return action;
     }
 }

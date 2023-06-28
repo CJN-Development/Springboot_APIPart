@@ -1,12 +1,15 @@
 package org.keyin.airport;
 
+import org.keyin.StackControls.RequestStack;
 import org.keyin.aircraft.Aircraft;
 import org.keyin.passenger.Passenger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Stack;
 
 @RestController
 @CrossOrigin
@@ -14,25 +17,53 @@ public class AirportController {
 
     private AirportService airportService;
 
-    public AirportController(){airportService = new AirportService();}
+    private Stack<RequestStack> requestStack;
+
+    public AirportController(){
+        airportService = new AirportService();
+        requestStack = new Stack<>();
+    }
 
     @GetMapping("/airport")
     public List<Airport> getAllAirports() {
+        RequestStack request = new RequestStack("GET", "/airport", LocalDateTime.now());
+        requestStack.push(request);
+        System.out.println("Logged request: GET /airport at " + request.getTimestamp());
         return airportService.getAllAirports();
     }
 
     @GetMapping("/airport/airportSearch")
     public List<Airport> search(@RequestParam String searchTerm) {
+        RequestStack request = new RequestStack("GET", "/airport/airportSearch", LocalDateTime.now());
+        requestStack.push(request);
+        System.out.println("Logged request: GET /airport/airportSearch at " + request.getTimestamp());
         return airportService.searchAirport(searchTerm);
     }
     @DeleteMapping("/airport/deleteAirport")
     public List<Airport> delete(@RequestParam Long id) {
+        RequestStack request = new RequestStack("DELETE", "/airport/deleteAirport", LocalDateTime.now());
+        requestStack.push(request);
+        System.out.println("Logged request: DELETE /airport/deleteAirport at " + request.getTimestamp());
         return airportService.deleteAirport(id);
     }
 
     @PostMapping("/airport/createAirport")
-    public void createAirport(@RequestBody Airport airport) {
-        airportService.createAirport(airport);
+    public ResponseEntity<String> createAirport(@RequestBody Airport airport) {
+        RequestStack request = new RequestStack("POST", "/airport/createAirport", LocalDateTime.now());
+        requestStack.push(request);
+
+        try {
+            if (!airportService.existsAirport(airport)){
+                airportService.createAirport(airport);
+                System.out.println("Logged request: POST /airport/createAirport at " + request.getTimestamp());
+            } else {
+                System.out.println("Logged request FAILED: POST /airport/createAirport at " + request.getTimestamp());
+                return new ResponseEntity<>("Failed to create Airport, Airport already exists!", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+            return new ResponseEntity<>("Airport created successfully", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Failed to create Airport", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping("/airport/undo")
@@ -96,5 +127,12 @@ public class AirportController {
             }
         }
         throw new RuntimeException("Passenger not found");
+    }
+
+    @GetMapping("/airport/getAirportActions")
+    public List<String> getAirportActions() {
+        List<String> actionList = airportService.getAllAirportsActions();
+        System.out.println(actionList);
+        return actionList;
     }
 }
