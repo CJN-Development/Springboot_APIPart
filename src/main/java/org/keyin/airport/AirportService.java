@@ -20,19 +20,19 @@ public class AirportService {
     private List<String> airportActions = new ArrayList<>();
 
     public AirportService(){
-        Airport airport = new Airport();
-        airport.setId(1L);
-        airport.setName("Pearson International");
-        airport.setCode("YYZ");
-
-        airportList.add(airport);
-
-        Airport airport2 = new Airport();
-        airport2.setId(2L);
-        airport2.setName("St.John's International");
-        airport2.setCode("YYT");
-
-        airportList.add(airport2);
+//        Airport airport = new Airport();
+//        airport.setId(1L);
+//        airport.setName("Pearson International");
+//        airport.setCode("YYZ");
+//
+//        airportList.add(airport);
+//
+//        Airport airport2 = new Airport();
+//        airport2.setId(2L);
+//        airport2.setName("St.John's International");
+//        airport2.setCode("YYT");
+//
+//        airportList.add(airport2);
     }
 
     public List<Airport> getAllAirports(){return airportList;}

@@ -16,11 +16,11 @@ public class CityService {
     private List<String> cityActions = new ArrayList<>(); // List to store the logged city actions
 
     public CityService() {
-        City city1 = new City(1L, "NL", 150_000, "St. John's");
-        City city2 = new City(2L, "ON", 2_900_000, "Toronto");
-
-        cityList.add(city1);
-        cityList.add(city2);
+//        City city1 = new City(1L, "NL", 150_000, "St. John's");
+//        City city2 = new City(2L, "ON", 2_900_000, "Toronto");
+//
+//        cityList.add(city1);
+//        cityList.add(city2);
     }
 
     public List<City> getCityList() {

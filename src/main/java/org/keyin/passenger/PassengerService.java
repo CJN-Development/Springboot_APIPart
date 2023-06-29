@@ -23,19 +23,19 @@ public class PassengerService {
     private Stack<Action> redoStack = new Stack<>();
 
     public PassengerService() {
-        Passenger passenger = new Passenger();
-        passenger.setId(1L);
-        passenger.setFirstName("John");
-        passenger.setLastName("Doe");
-        passenger.setPhoNum(1231234);
-        passengerList.add(passenger);
-
-        Passenger passenger2 = new Passenger();
-        passenger2.setId(2L);
-        passenger2.setFirstName("Steph");
-        passenger2.setLastName("Short");
-        passenger2.setPhoNum(5675678);
-        passengerList.add(passenger2);
+//        Passenger passenger = new Passenger();
+//        passenger.setId(1L);
+//        passenger.setFirstName("John");
+//        passenger.setLastName("Doe");
+//        passenger.setPhoNum(1231234);
+//        passengerList.add(passenger);
+//
+//        Passenger passenger2 = new Passenger();
+//        passenger2.setId(2L);
+//        passenger2.setFirstName("Steph");
+//        passenger2.setLastName("Short");
+//        passenger2.setPhoNum(5675678);
+//        passengerList.add(passenger2);
     }
 
     public List<Passenger> getAllPassenger() {
