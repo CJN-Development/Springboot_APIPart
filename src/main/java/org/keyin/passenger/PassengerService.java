@@ -1,6 +1,8 @@
 package org.keyin.passenger;
 
 import org.keyin.StackControls.Action;
+import org.keyin.airport.Airport;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -69,7 +71,12 @@ public class PassengerService {
     public List<Passenger> deletePassenger(Long id) {
         for (Passenger passenger : passengerList) {
             if (passenger.getId().equals(id)) {
+                Action action = new Action("DELETE", passenger.getId(), passenger);
+                actionStack.push(action);
+                undoStack.push(action);
+                redoStack.clear();
                 passengerList.remove(passenger);
+                passengerActions.add(logActionWithTimestamp("Deleted Passenger action"));
                 break;
             }
         }
@@ -78,16 +85,48 @@ public class PassengerService {
 
     public List<Passenger> createPassenger(Passenger passenger) {
         passengerList.add(passenger);
+        Action action = new Action("CREATE", passenger.getId(), passenger);
+        actionStack.push(action);
+        undoStack.push(action);
+        redoStack.clear();
+        if (existsPassenger(passenger)){
+            passengerActions.add(logActionWithTimestamp("Created Passenger"));
+        } else {
+            passengerActions.add(logActionWithTimestamp("Created Passenger Failed"));
+        }
         return passengerList;
     }
 
+    public boolean existsPassenger(Passenger passenger){
+        for (Passenger passenger1 : passengerList){
+            if (passenger1.getId().equals(passenger.getId())){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public List<Passenger> updatePassenger(Passenger updatedPassenger) {
+        Passenger originalPassenger = null;
+        for (Passenger passenger : passengerList){
+            if (passenger.getId().equals(updatedPassenger.getId())){
+                originalPassenger = clonePassenger(passenger);
+                break;
+            }
+        }
+        if (originalPassenger != null) {
+            Action action = new Action("UPDATE", updatedPassenger.getId(), originalPassenger);
+            actionStack.push(action);
+            undoStack.push(action);
+            redoStack.clear();
+
         for (Passenger passenger : passengerList) {
             if (passenger.getId().equals(updatedPassenger.getId())) {
                 passenger.setFirstName(updatedPassenger.getFirstName());
                 passenger.setLastName(updatedPassenger.getLastName());
                 passenger.setPhoNum(updatedPassenger.getPhoNum());
                 break;
+            }
             }
         }
         return passengerList;
@@ -158,10 +197,11 @@ public class PassengerService {
         return new Passenger(passenger.getId(), passenger.getFirstName(), passenger.getPhoNum());
     }
 
-    private void logActionWithTimestamp(String action) {
+    private String logActionWithTimestamp(String action) {
         LocalDateTime timestamp = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd H:mm:s");
         String formattedTimestamp = timestamp.format(formatter);
         System.out.println(formattedTimestamp + " - " + action);
+        return action;
     }
 }

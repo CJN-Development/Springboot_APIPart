@@ -109,7 +109,7 @@ public class PassengerController {
     }
 
     @GetMapping("/passenger/getPassengerActions")
-    public List<String> getAircraftActions(){
+    public List<String> getPassengerActions(){
         List<String> actionList = passengerService.getAllPassengerActions();
 
 
