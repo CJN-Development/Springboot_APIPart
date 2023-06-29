@@ -21,21 +21,21 @@ public class AircraftService {
 
 
     public AircraftService() {
-        Aircraft aircraft = new Aircraft();
-        aircraft.setId(1L);
-        aircraft.setBrand("Boeing");
-        aircraft.setModel("737");
-        aircraft.setTailNumber("AF-1234");
-
-        aircraftList.add(aircraft);
-
-        Aircraft aircraft2 = new Aircraft();
-        aircraft2.setId(2L);
-        aircraft2.setBrand("Reet2");
-        aircraft2.setModel("7373");
-        aircraft2.setTailNumber("AF-12344444");
-
-        aircraftList.add(aircraft2);
+//        Aircraft aircraft = new Aircraft();
+//        aircraft.setId(1L);
+//        aircraft.setBrand("Boeing");
+//        aircraft.setModel("737");
+//        aircraft.setTailNumber("AF-1234");
+//
+//        aircraftList.add(aircraft);
+//
+//        Aircraft aircraft2 = new Aircraft();
+//        aircraft2.setId(2L);
+//        aircraft2.setBrand("Reet2");
+//        aircraft2.setModel("7373");
+//        aircraft2.setTailNumber("AF-12344444");
+//
+//        aircraftList.add(aircraft2);
     }
 
 
